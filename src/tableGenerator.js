@@ -1,4 +1,4 @@
-let table = "<table border=1>";
+let table = "<table>";
 const createTable = function(rows,cols) {
   for(let row=0;row<rows;row++) {
     table += "<tr>";
@@ -7,7 +7,7 @@ const createTable = function(rows,cols) {
     }
     table += "</tr>";
   }
-  return table;
+  return table + "</table>";
 }
 
 exports.createTable = createTable;
