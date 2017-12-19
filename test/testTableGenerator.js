@@ -1,9 +1,10 @@
-let createTable = require('../src/tableGenerator.js')
+let createTable = require('../src/tableGenerator.js').createTable;
 let assert = require('assert');
 let test = {};
 
 test['test: test tableGenerator creates table of specified rows and cols'] = function() {
-  console.log(createTable);
+  let tableOfOneCell = "<table><tr><td></td></tr></table>"
+  assert.equal(tableOfOneCell,createTable(1,1));
 }
 
 
