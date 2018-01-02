@@ -1,17 +1,3 @@
-// const createTable = function(rows,cols) {
-//   let table = "<table id=minefield>";
-//   let id=1;
-//   for(let row=0;row<rows;row++) {
-//     table += "<tr>";
-//     for(let col=0;col<cols;col++) {
-//       table += `<td id=${id++}></td>`;
-//     }
-//     table += "</tr>";
-//   }
-//   return table + "</table>";
-// }
-
-
 const createTable = function(rows,cols) {
   let table = document.createElement("table");
   let id = 0;
@@ -31,4 +17,12 @@ const appendTableToDiv = function(table) {
   let div = document.getElementById('minesDiv');
   table.id = 'minefield';
   div.appendChild(table);
+}
+
+const getRowByCellId = function(cellId,cols) {
+  return Math.floor(cellId/cols);
+}
+
+const getColByCellId = function(cellId,cols) {
+  return cellId % cols;
 }

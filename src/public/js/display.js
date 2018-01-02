@@ -9,3 +9,8 @@ const displayMinefield = function() {
     }
   }
 }
+
+const drawTable = function(rows,cols) {
+  let table = createTable(rows,cols);
+  appendTableToDiv(table);
+}

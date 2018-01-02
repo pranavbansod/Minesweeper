@@ -3,7 +3,6 @@ const cols = 16;
 const bombs = 40;
 
 let game = new Game(rows,cols,bombs);  //(rows,cols,bombs)
-game.createMinefield();  //creates mine cells
 
 const updateMinefield = function () {
 
@@ -15,8 +14,8 @@ const initializeEventListener = function() {
 }
 
 const loadGame = function() {
-  let table = createTable(rows,cols);
-  appendTableToDiv(table);
+  drawTable(rows,cols)
+  game.createMinefield();  //creates mine cells
   displayMinefield();
   initializeEventListener();
 }

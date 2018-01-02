@@ -11,6 +11,10 @@ Cell.prototype.getValue = function() {
   return this.value;
 }
 
+Cell.prototype.getId = function() {
+  return this.id
+}
+
 let Game = function(rows,cols,bombs) {
   this.rows = rows;
   this.cols = cols;
@@ -54,7 +58,9 @@ Game.prototype.setBombs = function() {
 }
 
 
-Game.prototype.getAroundCellsOf = function(row,col) {
+Game.prototype.getAroundCellsOf = function(cellId) {
+  let row = getRowByCellId(cellId,this.cols);
+  let col = getColByCellId(cellId,this.rows);
   let aroundCells = [];
   for(let y=-1; y<2; y++) {
     for(let x=-1; x<2; x++) {
@@ -68,11 +74,14 @@ Game.prototype.getAroundCellsOf = function(row,col) {
 }
 
 
-Game.prototype.calculateBombsAround = function(row,col) {
-  this.minefield[row][col]['value'] = 0;
-  let aroundCells = this.getAroundCellsOf(row,col)
+Game.prototype.calculateBombsAround = function(cellId) {
+  let cell = this.getCellById(cellId)
+  cell['value'] = 0;
+  let aroundCells = this.getAroundCellsOf(cellId);
   let gameReference = this;
   aroundCells.forEach(function(adjCell) {
+    let row = getRowByCellId(cellId,gameReference.cols);
+    let col = getColByCellId(cellId,gameReference.cols);
     if(gameReference.minefield[adjCell['row']][adjCell['col']].isBomb())
       gameReference.minefield[row][col]['value']++;
   })
@@ -80,18 +89,14 @@ Game.prototype.calculateBombsAround = function(row,col) {
 
 Game.prototype.setBombsAroundCount = function() {
   let gameReference = this;
-  let row = 0;
   this.minefield.forEach(function(mineRow) {
-    let col = 0;
     mineRow.forEach(function(cell){
       if(cell.isBomb()) {
         cell['value'] = "*";
       } else {
-        gameReference.calculateBombsAround(row,col);
+        gameReference.calculateBombsAround(cell.getId())
       }
-      col++;
     });
-    row++;
   });
 }
 
