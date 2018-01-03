@@ -3,6 +3,10 @@ let Cell = function(id) {
   this.bomb = false;
 }
 
+Cell.prototype.isValueZero = function() {
+  return this.value == 0;
+}
+
 Cell.prototype.isBomb = function() {
   return this.bomb;
 }
@@ -57,33 +61,43 @@ Game.prototype.setBombs = function() {
   });
 }
 
+Game.prototype.getValidCoOrds = function(coOrds) {
+  let isValidCol = coOrds['col']>-1 && coOrds['col']<this.cols;
+  let isValidRow = coOrds['row']>-1 && coOrds['row']<this.rows;
+  return  isValidCol && isValidRow;
+}
 
-Game.prototype.getAroundCellsOf = function(cellId) {
+Game.prototype.isValidCellId = function(cellId) {
+  return cellId > -1 && cellId < this.cells;
+}
+
+Game.prototype.getSurroundingCellIds = function(cellId) {
   let row = getRowByCellId(cellId,this.cols);
-  let col = getColByCellId(cellId,this.rows);
-  let aroundCells = [];
+  let col = getColByCellId(cellId,this.cols);
+  let aroundCellIds = [];
   for(let y=-1; y<2; y++) {
     for(let x=-1; x<2; x++) {
-      aroundCells.push({'row':row-y,'col':col-x})
+      let surroundingCol = Math.abs(col+x);
+      if(surroundingCol < this.cols) {
+        let cellId = getIdByRowCol(row+y,surroundingCol,this.cols);
+        if(!aroundCellIds.includes(cellId))
+        aroundCellIds.push(cellId);
+      }
     }
   }
-  gameReference = this;
-  return aroundCells.filter(function(coOrds) {
-    return coOrds['col']>-1 && coOrds['col']<gameReference.cols && coOrds['row']>-1 && coOrds['row']<gameReference.rows;
-  });
+  return aroundCellIds.filter(id=>this.isValidCellId(id));
 }
 
 
 Game.prototype.calculateBombsAround = function(cellId) {
   let cell = this.getCellById(cellId)
   cell['value'] = 0;
-  let aroundCells = this.getAroundCellsOf(cellId);
+  let surroundingCellIds = this.getSurroundingCellIds(cellId);
   let gameReference = this;
-  aroundCells.forEach(function(adjCell) {
-    let row = getRowByCellId(cellId,gameReference.cols);
-    let col = getColByCellId(cellId,gameReference.cols);
-    if(gameReference.minefield[adjCell['row']][adjCell['col']].isBomb())
-      gameReference.minefield[row][col]['value']++;
+  surroundingCellIds.forEach(function(currCellId) {
+    let currCell = gameReference.getCellById(currCellId);
+    if(currCell.isBomb())
+      cell['value']++;
   })
 }
 

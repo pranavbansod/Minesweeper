@@ -1,22 +1,18 @@
-const createTable = function(rows,cols) {
+const createTableWithButtons = function(rows,cols) {
   let table = document.createElement("table");
   let id = 0;
   for(let row=0;row<rows;row++) {
     let tr = document.createElement("tr");
     for(let col=0;col<cols;col++) {
       let td = document.createElement("td");
-      td.id = id++;
+      let button = document.createElement("button");
+      button.id = id++;
+      td.appendChild(button);
       tr.appendChild(td);
     }
     table.appendChild(tr);
   }
   return table
-}
-
-const appendTableToDiv = function(table) {
-  let div = document.getElementById('minesDiv');
-  table.id = 'minefield';
-  div.appendChild(table);
 }
 
 const getRowByCellId = function(cellId,cols) {
@@ -25,4 +21,8 @@ const getRowByCellId = function(cellId,cols) {
 
 const getColByCellId = function(cellId,cols) {
   return cellId % cols;
+}
+
+const getIdByRowCol = function(currRow,currCol,totalCols) {
+  return (currRow * totalCols) + currCol;
 }

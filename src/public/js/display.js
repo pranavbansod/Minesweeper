@@ -1,16 +1,29 @@
+const appendTableToDiv = function(table) {
+  let div = document.getElementById('minesDiv');
+  table.id = 'minefield';
+  div.appendChild(table);
+}
+
 const displayMinefield = function() {
   for (let cellId=0;cellId<game.cells;cellId++) {
     let tableCell = document.getElementById(`${cellId}`);
     let mineCell = game.getCellById(cellId);
-    if(mineCell.getValue()==0){
-      tableCell.innerText = "";
-    } else {
-      tableCell.innerText = mineCell.getValue();
-    }
+    displayCellValue(cellId);
   }
 }
 
 const drawTable = function(rows,cols) {
-  let table = createTable(rows,cols);
+  let table = createTableWithButtons(rows,cols);
   appendTableToDiv(table);
+}
+
+const displayCellValue = function(cellId) {
+  let tableCell = document.getElementById(`${cellId}`);
+  let mineCell = game.getCellById(cellId);
+  // if(mineCell.getValue()==0){
+  //   tableCell.innerText = "";
+  // } else {
+  //   tableCell.innerText = mineCell.getValue();
+  // }
+   tableCell.innerText = mineCell.getValue();
 }
