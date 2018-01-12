@@ -20,10 +20,20 @@ const drawTable = function(rows,cols) {
 const displayCellValue = function(cellId) {
   let tableCell = document.getElementById(`${cellId}`);
   let mineCell = game.getCellById(cellId);
-  // if(mineCell.getValue()==0){
+  // if(mineCell.isValueZero()){
   //   tableCell.innerText = "";
   // } else {
   //   tableCell.innerText = mineCell.getValue();
   // }
-   tableCell.innerText = mineCell.getValue();
+  tableCell.innerText = mineCell.getValue();
+}
+
+const displayWinMessage = function() {
+  let display = document.getElementById('display');
+  display.innerText = "You Won";
+}
+
+const displayLoseMessage = function() {
+  let display = document.getElementById('display');
+  display.innerText = "You Lost";
 }

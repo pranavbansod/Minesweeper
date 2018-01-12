@@ -1,6 +1,19 @@
 let Cell = function(id) {
   this.id = id;
   this.bomb = false;
+  this.flag = false;
+}
+
+Cell.prototype.setFlag = function() {
+  this.flag = true;
+}
+
+Cell.prototype.unsetFlag = function() {
+  this.flag = false;
+}
+
+Cell.prototype.isFlagSet = function() {
+  return this.flag;
 }
 
 Cell.prototype.isValueZero = function() {
@@ -19,11 +32,17 @@ Cell.prototype.getId = function() {
   return this.id
 }
 
+
 let Game = function(rows,cols,bombs) {
   this.rows = rows;
   this.cols = cols;
   this.cells = this.rows * this.cols;
+  this.remaining = this.cells;
   this.bombs = bombs;
+}
+
+Game.prototype.isWon = function() {
+  return this.remaining == this.bombs;
 }
 
 Game.prototype.getCellById = function(id) {
