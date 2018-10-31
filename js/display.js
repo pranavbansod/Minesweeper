@@ -1,40 +1,51 @@
-const appendTableToDiv = function(table) {
+const appendTableToDiv = function (table) {
   let div = document.getElementById('minesDiv');
   table.id = 'minefield';
   div.appendChild(table);
 };
 
-const displayMinefield = function() {
-  for (let cellId=0;cellId<game.cells;cellId++) {
-    let tableCell = document.getElementById(`${cellId}`);
-    let mineCell = game.getCellById(cellId);
-    displayNumber(cellId);
-  }
-};
-
-const drawTable = function(rows,cols) {
-  let table = createTableWithButtons(rows,cols);
+const drawTable = function (rows, cols) {
+  let table = createTableWithButtons(rows, cols);
   appendTableToDiv(table);
 };
 
-const displayNumber = function(cellId) {
-  let tableCell = document.getElementById(`${cellId}`);
-  tableCell.classList.add("revealed");
-  let mineCell = game.getCellById(cellId);
-  // if(mineCell.isValueZero()){
-  //   tableCell.innerText = "";
-  // } else {
-  //   tableCell.innerText = mineCell.getValue();
-  // }
-  tableCell.innerText = mineCell.getValue();
+let revealZeroes = function (row, col) {
+  if (row < 0 || row >= game.rows || col < 0 || col >= game.cols) return;
+  let isZero = game.minefield[row][col].isValueZero();
+  let totalCols = game.cols;
+  let cellId = getIdByRowCol(row, col, totalCols);
+  let cell = document.getElementById(cellId);
+  let isRevealed = cell.classList.contains("revealed");
+  cell.classList.add("revealed");
+  cell.innerText = game.getCellById(cellId).getValue();
+  if (isZero && !isRevealed) {
+    revealZeroes(row + 1, col, totalCols);
+    revealZeroes(row - 1, col, totalCols);
+    revealZeroes(row, col - 1, totalCols);
+    revealZeroes(row, col + 1, totalCols);
+  } else {
+    return;
+  }
 };
 
-const displayWinMessage = function() {
+const displayNumber = function (cellId) {
+  let tableCell = document.getElementById(`${cellId}`);
+  let mineCell = game.getCellById(cellId);
+  if (mineCell.isValueZero()) {
+    revealZeroes(getRowByCellId(cellId, game.cols), getColByCellId(cellId, game.cols));
+  } else {
+    tableCell.classList.add("revealed");
+    tableCell.innerText = mineCell.getValue();
+  }
+
+};
+
+const displayWinMessage = function () {
   let display = document.getElementById('display');
   display.innerText = "You Won";
 };
 
-const displayLoseMessage = function() {
+const displayLoseMessage = function () {
   let display = document.getElementById('display');
   display.innerText = "You Lost";
 };

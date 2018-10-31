@@ -1,42 +1,42 @@
-const rows = 5;
-const cols = 5;
-const bombs = 4;
+const rows = 16;
+const cols = 32;
+const bombs = 99;
 
-let game = new Game(rows,cols,bombs);  //(rows,cols,bombs)
+let game = new Game(rows, cols, bombs);  //(rows,cols,bombs)
 
-const getClickedCellId = function(event) {
+const getClickedCellId = function (event) {
   return event.target.id;
 };
 
-const displayAllBombs = function() {
-  game.minefield.forEach(function(mineRow) {
-    mineRow.forEach(function(cell){
-      if(cell.isBomb())
-        displayNumber(cell.getId())
+const displayAllBombs = function () {
+  game.minefield.forEach(function (mineRow) {
+    mineRow.forEach(function (cell) {
+      if (cell.isBomb())
+        displayNumber(cell.getId());
     });
   });
 };
 
-const disableAllButtons = function() {
-  allButtons = document.getElementsByTagName("button");
-  buttons = Array.prototype.slice.call(allButtons);
-  buttons.map((button)=>{
-    button.setAttribute("disabled","disabled")
+const disableAllButtons = function () {
+  let allButtons = document.getElementsByTagName("button");
+  let buttons = Array.prototype.slice.call(allButtons);
+  buttons.map((button) => {
+    button.setAttribute("disabled", "disabled")
   })
 };
 
-const gameOver = function() {
+const gameOver = function () {
   displayAllBombs();
   removeEventListeners();
   displayLoseMessage();
   disableAllButtons();
 };
 
-const toggleFlag = function(event) {
+const toggleFlag = function (event) {
   let cellId = getClickedCellId(event);
   let tableCell = document.getElementById(cellId);
   let cell = game.getCellById(cellId);
-  if(cell.isFlagSet()) {
+  if (cell.isFlagSet()) {
     cell.unsetFlag();
     tableCell.innerText = "";
   } else {
@@ -45,44 +45,44 @@ const toggleFlag = function(event) {
   }
 };
 
-const processGameplay = function(cell,cellId) {
-  if(!cell.isFlagSet()) {
-    if(cell.isBomb()) {
+const processGamePlay = function (cell, cellId) {
+  if (!cell.isFlagSet()) {
+    if (cell.isBomb()) {
       gameOver(cellId);
-    }else {
+    } else {
       displayNumber(cellId);
       game.remaining--;
     }
   }
 };
 
-const removeEventListeners = function() {
+const removeEventListeners = function () {
   let minefield = document.getElementById('minefield');
-  minefield.removeEventListener("click",updateMinefield);
-  minefield.removeEventListener("contextmenu",toggleFlag);
+  minefield.removeEventListener("click", updateMinefield);
+  minefield.removeEventListener("contextmenu", toggleFlag);
 };
 
-const updateMinefield = function(event) {
+const updateMinefield = function (event) {
   let cellId = getClickedCellId(event);
   let cell = game.getCellById(cellId);
-  if(!game.isWon()){
-    processGameplay(cell,cellId);
+  if (!game.isWon()) {
+    processGamePlay(cell, cellId);
   }
-  if(game.isWon()) {
+  if (game.isWon()) {
     displayAllBombs();
     removeEventListeners();
     displayWinMessage();
   }
 };
 
-const initializeEventListener = function() {
+const initializeEventListener = function () {
   let minefield = document.getElementById('minefield');
-  minefield.addEventListener("click",updateMinefield);
-  minefield.addEventListener("contextmenu",toggleFlag);
+  minefield.addEventListener("click", updateMinefield);
+  minefield.addEventListener("contextmenu", toggleFlag);
 };
 
-const loadGame = function() {
-  drawTable(rows,cols);
+const loadGame = function () {
+  drawTable(rows, cols);
   game.createMinefield();
   initializeEventListener();
 };

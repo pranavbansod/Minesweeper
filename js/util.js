@@ -15,7 +15,7 @@ const createTableWithButtons = function(rows,cols) {
   return table
 };
 
-const getRowByCellId = function(cellId,cols) {
+const getRowByCellId = function(cellId, cols) {
   return Math.floor(cellId/cols);
 };
 
