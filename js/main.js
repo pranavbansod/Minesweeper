@@ -6,7 +6,7 @@ let game = new Game(rows,cols,bombs);  //(rows,cols,bombs)
 
 const getClickedCellId = function(event) {
   return event.target.id;
-}
+};
 
 const displayAllBombs = function() {
   game.minefield.forEach(function(mineRow) {
@@ -15,18 +15,18 @@ const displayAllBombs = function() {
         displayCellValue(cell.getId())
     });
   });
-}
+};
 
-const onBombClick = function(cellId) {
+const onBombClick = function() {
   displayAllBombs();
   let minefield = document.getElementById('minefield');
   minefield.removeEventListener("click",updateMinefield);
   displayLoseMessage();
-}
+};
 
 const toggleFlag = function(event) {
   let cellId = getClickedCellId(event);
-  let tableCell = document.getElementById(cellId)
+  let tableCell = document.getElementById(cellId);
   let cell = game.getCellById(cellId);
   if(cell.isFlagSet()) {
     cell.unsetFlag();
@@ -35,7 +35,7 @@ const toggleFlag = function(event) {
     cell.setFlag();
     tableCell.innerText = "@";
   }
-}
+};
 
 const processGameplay = function(cell,cellId) {
   if(!cell.isFlagSet()) {
@@ -46,12 +46,12 @@ const processGameplay = function(cell,cellId) {
       game.remaining--;
     }
   }
-}
+};
 
-const stopGame = function(cell) {
+const stopGame = function() {
   minefield.removeEventListener("click",updateMinefield);
   minefield.removeEventListener("contextmenu",toggleFlag);
-}
+};
 
 const updateMinefield = function(event) {
   let cellId = getClickedCellId(event);
@@ -64,20 +64,19 @@ const updateMinefield = function(event) {
     stopGame();
     displayWinMessage();
   }
-}
+};
 
 const initializeEventListener = function() {
   let minefield = document.getElementById('minefield');
   minefield.addEventListener("click",updateMinefield);
   minefield.addEventListener("contextmenu",toggleFlag);
-}
+};
 
 const loadGame = function() {
-  drawTable(rows,cols)
+  drawTable(rows,cols);
   game.createMinefield();
   initializeEventListener();
-  // displayMinefield();
-}
+};
 
 
 window.onload = loadGame;

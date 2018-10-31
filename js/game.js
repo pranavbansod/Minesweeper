@@ -2,35 +2,35 @@ let Cell = function(id) {
   this.id = id;
   this.bomb = false;
   this.flag = false;
-}
+};
 
 Cell.prototype.setFlag = function() {
   this.flag = true;
-}
+};
 
 Cell.prototype.unsetFlag = function() {
   this.flag = false;
-}
+};
 
 Cell.prototype.isFlagSet = function() {
   return this.flag;
-}
+};
 
 Cell.prototype.isValueZero = function() {
   return this.value == 0;
-}
+};
 
 Cell.prototype.isBomb = function() {
   return this.bomb;
-}
+};
 
 Cell.prototype.getValue = function() {
   return this.value;
-}
+};
 
 Cell.prototype.getId = function() {
   return this.id
-}
+};
 
 
 let Game = function(rows,cols,bombs) {
@@ -39,17 +39,17 @@ let Game = function(rows,cols,bombs) {
   this.cells = this.rows * this.cols;
   this.remaining = this.cells;
   this.bombs = bombs;
-}
+};
 
 Game.prototype.isWon = function() {
   return this.remaining == this.bombs;
-}
+};
 
 Game.prototype.getCellById = function(id) {
   let row = Math.floor(id/this.cols);
   let col = id % this.cols;
   return this.minefield[row][col];
-}
+};
 
 Game.prototype.createMineCells = function() {
   let minefield = [];
@@ -62,7 +62,7 @@ Game.prototype.createMineCells = function() {
     minefield.push(mineRow)
   }
   this.minefield = minefield;
-}
+};
 
 
 Game.prototype.setBombs = function() {
@@ -78,17 +78,17 @@ Game.prototype.setBombs = function() {
     let cell = gameReference.getCellById(cellId);
     cell['bomb'] = true;
   });
-}
+};
 
 Game.prototype.getValidCoOrds = function(coOrds) {
   let isValidCol = coOrds['col']>-1 && coOrds['col']<this.cols;
   let isValidRow = coOrds['row']>-1 && coOrds['row']<this.rows;
   return  isValidCol && isValidRow;
-}
+};
 
 Game.prototype.isValidCellId = function(cellId) {
   return cellId > -1 && cellId < this.cells;
-}
+};
 
 Game.prototype.getSurroundingCellIds = function(cellId) {
   let row = getRowByCellId(cellId,this.cols);
@@ -105,11 +105,11 @@ Game.prototype.getSurroundingCellIds = function(cellId) {
     }
   }
   return aroundCellIds.filter(id=>this.isValidCellId(id));
-}
+};
 
 
 Game.prototype.calculateBombsAround = function(cellId) {
-  let cell = this.getCellById(cellId)
+  let cell = this.getCellById(cellId);
   cell['value'] = 0;
   let surroundingCellIds = this.getSurroundingCellIds(cellId);
   let gameReference = this;
@@ -118,7 +118,7 @@ Game.prototype.calculateBombsAround = function(cellId) {
     if(currCell.isBomb())
       cell['value']++;
   })
-}
+};
 
 Game.prototype.setBombsAroundCount = function() {
   let gameReference = this;
@@ -131,11 +131,11 @@ Game.prototype.setBombsAroundCount = function() {
       }
     });
   });
-}
+};
 
 
 Game.prototype.createMinefield = function() {
   this.createMineCells();
   this.setBombs();
   this.setBombsAroundCount();
-}
+};

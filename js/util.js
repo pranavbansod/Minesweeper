@@ -13,16 +13,16 @@ const createTableWithButtons = function(rows,cols) {
     table.appendChild(tr);
   }
   return table
-}
+};
 
 const getRowByCellId = function(cellId,cols) {
   return Math.floor(cellId/cols);
-}
+};
 
 const getColByCellId = function(cellId,cols) {
   return cellId % cols;
-}
+};
 
 const getIdByRowCol = function(currRow,currCol,totalCols) {
   return (currRow * totalCols) + currCol;
-}
+};
