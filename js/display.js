@@ -38,12 +38,13 @@ let revealZeroes = function (row, col) {
   }
 };
 
-const displayNumber = function (cellId) {
+const displayNumber = function (cellId,color="black") {
   let tableCell = document.getElementById(`${cellId}`);
   let mineCell = game.getCellById(cellId);
   if (mineCell.isValueZero()) {
     revealZeroes(getRowByCellId(cellId, game.cols), getColByCellId(cellId, game.cols));
   } else {
+    tableCell.style.color = color;
     tableCell.classList.add("revealed");
     tableCell.setAttribute("disabled","disabled");
     tableCell.innerText = mineCell.getValue();

@@ -12,7 +12,7 @@ const displayAllBombs = function () {
   game.minefield.forEach(function (mineRow) {
     mineRow.forEach(function (cell) {
       if (cell.isBomb())
-        displayNumber(cell.getId());
+        displayNumber(cell.getId(),"darkred");
     });
   });
 };
