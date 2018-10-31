@@ -9,6 +9,17 @@ const drawTable = function (rows, cols) {
   appendTableToDiv(table);
 };
 
+function revealSurroundingCells(row, col, totalCols) {
+  revealZeroes(row + 1, col, totalCols);
+  revealZeroes(row - 1, col, totalCols);
+  revealZeroes(row, col - 1, totalCols);
+  revealZeroes(row, col + 1, totalCols);
+  revealZeroes(row - 1, col - 1, totalCols);
+  revealZeroes(row + 1, col + 1, totalCols);
+  revealZeroes(row + 1, col - 1, totalCols);
+  revealZeroes(row - 1, col + 1, totalCols);
+}
+
 let revealZeroes = function (row, col) {
   if (row < 0 || row >= game.rows || col < 0 || col >= game.cols) return;
   let isZero = game.minefield[row][col].isValueZero();
@@ -17,12 +28,11 @@ let revealZeroes = function (row, col) {
   let cell = document.getElementById(cellId);
   let isRevealed = cell.classList.contains("revealed");
   cell.classList.add("revealed");
-  cell.innerText = game.getCellById(cellId).getValue();
+  cell.setAttribute("disabled","disabled");
+  let cellValue = game.getCellById(cellId).getValue();
+  cell.innerText = cellValue==0 ? "" : cellValue;
   if (isZero && !isRevealed) {
-    revealZeroes(row + 1, col, totalCols);
-    revealZeroes(row - 1, col, totalCols);
-    revealZeroes(row, col - 1, totalCols);
-    revealZeroes(row, col + 1, totalCols);
+    revealSurroundingCells(row, col, totalCols);
   } else {
     return;
   }
@@ -35,6 +45,7 @@ const displayNumber = function (cellId) {
     revealZeroes(getRowByCellId(cellId, game.cols), getColByCellId(cellId, game.cols));
   } else {
     tableCell.classList.add("revealed");
+    tableCell.setAttribute("disabled","disabled");
     tableCell.innerText = mineCell.getValue();
   }
 

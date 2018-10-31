@@ -34,14 +34,14 @@ const gameOver = function () {
 
 const toggleFlag = function (event) {
   let cellId = getClickedCellId(event);
-  let tableCell = document.getElementById(cellId);
+  let cellButton = document.getElementById(cellId);
   let cell = game.getCellById(cellId);
   if (cell.isFlagSet()) {
     cell.unsetFlag();
-    tableCell.innerText = "";
+    cellButton.innerText = "";
   } else {
     cell.setFlag();
-    tableCell.innerText = "@";
+    cellButton.innerText = "@";
   }
 };
 
