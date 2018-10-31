@@ -8,7 +8,7 @@ const displayMinefield = function() {
   for (let cellId=0;cellId<game.cells;cellId++) {
     let tableCell = document.getElementById(`${cellId}`);
     let mineCell = game.getCellById(cellId);
-    displayCellValue(cellId);
+    displayNumber(cellId);
   }
 };
 
@@ -17,7 +17,7 @@ const drawTable = function(rows,cols) {
   appendTableToDiv(table);
 };
 
-const displayCellValue = function(cellId) {
+const displayNumber = function(cellId) {
   let tableCell = document.getElementById(`${cellId}`);
   tableCell.classList.add("revealed");
   let mineCell = game.getCellById(cellId);

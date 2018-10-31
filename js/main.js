@@ -12,16 +12,24 @@ const displayAllBombs = function() {
   game.minefield.forEach(function(mineRow) {
     mineRow.forEach(function(cell){
       if(cell.isBomb())
-        displayCellValue(cell.getId())
+        displayNumber(cell.getId())
     });
   });
 };
 
-const onBombClick = function() {
+const disableAllButtons = function() {
+  allButtons = document.getElementsByTagName("button");
+  buttons = Array.prototype.slice.call(allButtons);
+  buttons.map((button)=>{
+    button.setAttribute("disabled","disabled")
+  })
+};
+
+const gameOver = function() {
   displayAllBombs();
-  let minefield = document.getElementById('minefield');
-  minefield.removeEventListener("click",updateMinefield);
+  removeEventListeners();
   displayLoseMessage();
+  disableAllButtons();
 };
 
 const toggleFlag = function(event) {
@@ -40,15 +48,16 @@ const toggleFlag = function(event) {
 const processGameplay = function(cell,cellId) {
   if(!cell.isFlagSet()) {
     if(cell.isBomb()) {
-      onBombClick(cellId);
+      gameOver(cellId);
     }else {
-      displayCellValue(cellId);
+      displayNumber(cellId);
       game.remaining--;
     }
   }
 };
 
-const stopGame = function() {
+const removeEventListeners = function() {
+  let minefield = document.getElementById('minefield');
   minefield.removeEventListener("click",updateMinefield);
   minefield.removeEventListener("contextmenu",toggleFlag);
 };
@@ -61,7 +70,7 @@ const updateMinefield = function(event) {
   }
   if(game.isWon()) {
     displayAllBombs();
-    stopGame();
+    removeEventListeners();
     displayWinMessage();
   }
 };
