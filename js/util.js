@@ -5,9 +5,9 @@ const createTableWithButtons = function(rows,cols) {
     let tr = document.createElement("tr");
     for(let col=0;col<cols;col++) {
       let td = document.createElement("td");
-      let button = document.createElement("button");
-      button.id = id++;
-      td.appendChild(button);
+      let span = document.createElement("span");
+      span.id = id++;
+      td.appendChild(span);
       tr.appendChild(td);
     }
     table.appendChild(tr);

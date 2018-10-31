@@ -4,24 +4,30 @@ table {
   border: 1px solid black;
 }
 
-td,button {
+td{
   height: 30px;
   width: 30px;
+  border: 1.5px solid;
   background-color: #C0C0C0;
+  font-weight: bold;
+}
+
+span {
+  height: 30px;
+  width: 30px;
   border: 1.5px solid;
   border-top-color: #ffffff;
   border-right-color: #7B7B7B;
   border-bottom-color: #7B7B7B;
   border-left-color: #ffffff;
-  text-align: center;
-  vertical-align: middle;
-  font-weight: bold;
+  display: block;
 }
 
 .revealed {
   background-color: #C0C0C0;
-  font-size: 80%;
+  font-size: 100%;
   text-align: center;
+  align-self: center;
   border: none;
 }
 
@@ -31,3 +37,8 @@ button:active {
 }
 
 button:focus {outline:0;}
+
+footer {
+  position: fixed;
+  bottom: 100px;
+}

@@ -36,6 +36,7 @@ const toggleFlag = function (event) {
   let cellId = getClickedCellId(event);
   let cellButton = document.getElementById(cellId);
   let cell = game.getCellById(cellId);
+  if (cellButton.classList.contains("revealed")) return;
   if (cell.isFlagSet()) {
     cell.unsetFlag();
     cellButton.innerText = "";
